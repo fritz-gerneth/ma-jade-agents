@@ -9,10 +9,13 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>gps_input_adapter</module>
-        <module>gpscoordinateontology</module>
         <module>gpsfakedevice</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -26,6 +29,11 @@
         <repository>
             <id>tilab</id>
             <url>http://jade.tilab.com/maven/</url>
+        </repository>
+        <repository>
+            <id>de.effms.dev.repository</id>
+            <name>Developer Repository</name>
+            <url>https://github.com/fritz-gerneth/dev-maven-repo/raw/master/</url>
         </repository>
     </repositories>
 </project>
