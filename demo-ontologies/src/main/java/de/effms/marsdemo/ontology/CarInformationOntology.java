@@ -1,5 +1,7 @@
 package de.effms.marsdemo.ontology;
 
+import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
+import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
 import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;

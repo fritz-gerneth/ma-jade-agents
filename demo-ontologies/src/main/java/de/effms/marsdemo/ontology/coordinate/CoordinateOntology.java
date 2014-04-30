@@ -1,4 +1,4 @@
-package de.effms.marsdemo.ontology;
+package de.effms.marsdemo.ontology.coordinate;
 
 import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
@@ -24,7 +24,7 @@ public class CoordinateOntology extends Ontology implements CoordinateVocabulary
             coordinate.add(LONGITUDE, (PrimitiveSchema) getSchema(BasicOntology.FLOAT));
             coordinate.add(LATITUDE, (PrimitiveSchema) getSchema(BasicOntology.FLOAT));
 
-            this.add(coordinate);
+            this.add(coordinate, Coordinate.class);
         } catch (OntologyException e) {
             e.printStackTrace();
         }
