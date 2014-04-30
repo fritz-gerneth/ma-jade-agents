@@ -1,4 +1,4 @@
-package de.effms.marsdemo.ontology;
+package de.effms.marsdemo.ontology.car;
 
 public interface CarInformationVocabulary
 {

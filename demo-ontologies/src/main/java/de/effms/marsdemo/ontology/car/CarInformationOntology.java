@@ -1,4 +1,4 @@
-package de.effms.marsdemo.ontology;
+package de.effms.marsdemo.ontology.car;
 
 import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
 import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
