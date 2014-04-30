@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>gpsfakedevice</module>
-        <module>CarTrackingAgent</module>
+        <module>demo-ontologies</module>
+        <module>UserInteractionAgent</module>
     </modules>
 
     <properties>
@@ -52,13 +52,15 @@
 
     <repositories>
         <repository>
-            <id>tilab</id>
-            <url>http://jade.tilab.com/maven/</url>
-        </repository>
-        <repository>
             <id>de.effms.dev.repository</id>
             <name>Developer Repository</name>
-            <url>https://github.com/fritz-gerneth/dev-maven-repo/raw/master/</url>
+
+            <url>file:///${env.MAVEN_DEV_REPO_PATH}</url>
+            <!-- <url>https://github.com/fritz-gerneth/dev-maven-repo/raw/master/</url> -->
+        </repository>
+        <repository>
+            <id>tilab</id>
+            <url>http://jade.tilab.com/maven/</url>
         </repository>
     </repositories>
 </project>
