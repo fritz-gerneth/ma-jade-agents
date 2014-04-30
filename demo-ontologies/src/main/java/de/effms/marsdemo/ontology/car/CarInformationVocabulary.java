@@ -2,7 +2,7 @@ package de.effms.marsdemo.ontology.car;
 
 public interface CarInformationVocabulary
 {
-    String NAME = "de.effms.marsdemo.ontology.CarInformation";
+    String NAME = "de.effms.marsdemo.ontology.car.CarInformation";
 
     String CAR = "car";
 
