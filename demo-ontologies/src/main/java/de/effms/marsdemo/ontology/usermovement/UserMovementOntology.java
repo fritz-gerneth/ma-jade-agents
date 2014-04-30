@@ -1,4 +1,4 @@
-package de.effms.marsdemo.ontology;
+package de.effms.marsdemo.ontology.usermovement;
 
 import de.effms.jade.ontology.RecommenderSystemOntology;
 import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
