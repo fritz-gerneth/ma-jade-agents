@@ -31,7 +31,7 @@ public class CarInformationOntology extends Ontology implements CarInformationVo
             car.add(FUEL_Remaining, (PrimitiveSchema) getSchema(BasicOntology.FLOAT), ObjectSchema.OPTIONAL);
             car.add(POSITION, (ConceptSchema) CoordinateOntology.getInstance().getSchema(CoordinateVocabulary.COORDINATE));
 
-            this.add(car);
+            this.add(car, Car.class);
         } catch (OntologyException e) {
             e.printStackTrace();
         }
