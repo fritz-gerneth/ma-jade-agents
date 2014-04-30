@@ -14,7 +14,7 @@ public interface CarInformationVocabulary
 
     String FUEL_USAGE = "car-fuel-usage";
 
-    String FUEL_Remaining = "car-fuel-remaining";
+    String FUEL_REMAINING = "car-fuel-remaining";
 
     String POSITION = "car-position";
 }
