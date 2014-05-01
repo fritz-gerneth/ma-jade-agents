@@ -1,5 +1,7 @@
 package de.effms.marsdemo.ontology.car;
 
+import de.effms.jade.ontology.RelationalOntology;
+import de.effms.jade.ontology.RelationalVocabulary;
 import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
 import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
 import jade.content.onto.BasicOntology;
@@ -7,9 +9,10 @@ import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.schema.ConceptSchema;
 import jade.content.schema.ObjectSchema;
+import jade.content.schema.PredicateSchema;
 import jade.content.schema.PrimitiveSchema;
 
-public class CarInformationOntology extends Ontology implements CarInformationVocabulary
+public class CarInformationOntology extends Ontology implements CarInformationVocabulary, RelationalVocabulary
 {
     private static CarInformationOntology instance = new CarInformationOntology();
 
@@ -20,18 +23,33 @@ public class CarInformationOntology extends Ontology implements CarInformationVo
 
     private CarInformationOntology()
     {
-        super(NAME, new Ontology[] {BasicOntology.getInstance(), CoordinateOntology.getInstance()}, new jade.content.onto.ReflectiveIntrospector());
+        super(CarInformationVocabulary.NAME,
+            new Ontology[] {
+                BasicOntology.getInstance(), CoordinateOntology.getInstance(), RelationalOntology.getInstance()
+            },
+            new jade.content.onto.ReflectiveIntrospector()
+        );
 
         try {
             ConceptSchema car = new ConceptSchema(CAR);
-            car.add(ID, (PrimitiveSchema) getSchema(BasicOntology.STRING));
-            car.add(DRIVING, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN), ObjectSchema.OPTIONAL);
-            car.add(SPEED, (PrimitiveSchema) getSchema(BasicOntology.INTEGER), ObjectSchema.OPTIONAL);
-            car.add(FUEL_USAGE, (PrimitiveSchema) getSchema(BasicOntology.FLOAT), ObjectSchema.OPTIONAL);
-            car.add(FUEL_REMAINING, (PrimitiveSchema) getSchema(BasicOntology.FLOAT), ObjectSchema.OPTIONAL);
-            car.add(POSITION, (ConceptSchema) CoordinateOntology.getInstance().getSchema(CoordinateVocabulary.COORDINATE));
 
-            this.add(car, Car.class);
+            PredicateSchema speedPredicate = new PredicateSchema(SPEED);
+            speedPredicate.addSuperSchema((PredicateSchema) getSchema(HAS));
+
+            PredicateSchema fuelUsagePredicate = new PredicateSchema(FUEL_USAGE);
+            fuelUsagePredicate.addSuperSchema((PredicateSchema) getSchema(HAS));
+
+            PredicateSchema fuelRemainingPredicate = new PredicateSchema(FUEL_REMAINING);
+            fuelRemainingPredicate.addSuperSchema((PredicateSchema) getSchema(HAS));
+
+            PredicateSchema positionPredicate = new PredicateSchema(POSITION);
+            positionPredicate.addSuperSchema((PredicateSchema) getSchema(IS));
+
+            this.add(car);
+            this.add(speedPredicate);
+            this.add(fuelUsagePredicate);
+            this.add(fuelRemainingPredicate);
+            this.add(positionPredicate);
         } catch (OntologyException e) {
             e.printStackTrace();
         }

@@ -6,15 +6,19 @@ public interface CarInformationVocabulary
 
     String CAR = "car";
 
-    String ID = "car-id";
+    String SPEED = "car_speed";
 
-    String DRIVING = "car-is-driving";
+    String SPEED_PIXELS = "car_speed_pixels";
 
-    String SPEED = "car-speed";
+    String FUEL_USAGE = "car_fuel_usage";
 
-    String FUEL_USAGE = "car-fuel-usage";
+    String FUEL_USAGE_PIXEL = "car_fuel_usage_pixel";
 
     String FUEL_REMAINING = "car-fuel-remaining";
 
-    String POSITION = "car-position";
+    String FUEL_REMAINING_LITERS = "car_fuel_remaining_liters";
+
+    String POSITION = "car_position";
+
+    String POSITION_AT = "car_position_at";
 }
