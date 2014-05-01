@@ -5,6 +5,6 @@ public interface CoordinateVocabulary
     String NAME = "de.effms.marsdemo.ontology.coordinate.Coordinate";
 
     String COORDINATE = "Coordinate";
-    String LONGITUDE = "longitude";
-    String LATITUDE = "latitude";
+    String X = "coordinate_x";
+    String Y = "coordinate_y";
 }

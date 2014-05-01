@@ -21,8 +21,8 @@ public class CoordinateOntology extends Ontology implements CoordinateVocabulary
 
         try {
             ConceptSchema coordinate = new ConceptSchema(COORDINATE);
-            coordinate.add(LONGITUDE, (PrimitiveSchema) getSchema(BasicOntology.FLOAT));
-            coordinate.add(LATITUDE, (PrimitiveSchema) getSchema(BasicOntology.FLOAT));
+            coordinate.add(X, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+            coordinate.add(Y, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
 
             this.add(coordinate, Coordinate.class);
         } catch (OntologyException e) {

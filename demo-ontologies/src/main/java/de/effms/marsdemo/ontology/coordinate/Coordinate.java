@@ -4,38 +4,38 @@ import jade.content.Concept;
 
 public class Coordinate implements Concept
 {
-    private float longitude;
+    private int x;
 
-    private float latitude;
+    private int y;
 
     public Coordinate()
     {
 
     }
 
-    public Coordinate(float longitude, float latitude)
+    public Coordinate(int longitude, int latitude)
     {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.x = longitude;
+        this.y = latitude;
     }
 
-    public float getLongitude()
+    public int getX()
     {
-        return longitude;
+        return x;
     }
 
-    public void setLongitude(float longitude)
+    public void setX(int x)
     {
-        this.longitude = longitude;
+        this.x = x;
     }
 
-    public float getLatitude()
+    public int getY()
     {
-        return latitude;
+        return y;
     }
 
-    public void setLatitude(float latitude)
+    public void setY(int y)
     {
-        this.latitude = latitude;
+        this.y = y;
     }
 }
