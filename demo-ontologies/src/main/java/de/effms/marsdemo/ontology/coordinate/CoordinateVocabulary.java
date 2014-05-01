@@ -1,6 +1,8 @@
 package de.effms.marsdemo.ontology.coordinate;
 
-public interface CoordinateVocabulary
+import de.effms.jade.ontology.RecommenderSystemVocabulary;
+
+public interface CoordinateVocabulary extends RecommenderSystemVocabulary
 {
     String NAME = "de.effms.marsdemo.ontology.coordinate.Coordinate";
 

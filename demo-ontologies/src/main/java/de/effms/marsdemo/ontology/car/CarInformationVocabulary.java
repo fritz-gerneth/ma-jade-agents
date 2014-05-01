@@ -1,8 +1,8 @@
 package de.effms.marsdemo.ontology.car;
 
-import de.effms.jade.ontology.RelationalVocabulary;
+import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
 
-public interface CarInformationVocabulary extends RelationalVocabulary
+public interface CarInformationVocabulary extends CoordinateVocabulary
 {
     String NAME = "de.effms.marsdemo.ontology.car.CarInformation";
 

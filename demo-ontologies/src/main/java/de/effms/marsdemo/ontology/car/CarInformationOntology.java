@@ -1,16 +1,10 @@
 package de.effms.marsdemo.ontology.car;
 
-import de.effms.jade.ontology.RelationalOntology;
-import de.effms.jade.ontology.RelationalVocabulary;
 import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
-import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
-import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.schema.ConceptSchema;
-import jade.content.schema.ObjectSchema;
 import jade.content.schema.PredicateSchema;
-import jade.content.schema.PrimitiveSchema;
 
 public class CarInformationOntology extends Ontology implements CarInformationVocabulary
 {
@@ -23,12 +17,7 @@ public class CarInformationOntology extends Ontology implements CarInformationVo
 
     private CarInformationOntology()
     {
-        super(CarInformationVocabulary.NAME,
-            new Ontology[] {
-                CoordinateOntology.getInstance(), RelationalOntology.getInstance()
-            },
-            new jade.content.onto.ReflectiveIntrospector()
-        );
+        super(CarInformationVocabulary.NAME, CoordinateOntology.getInstance());
 
         try {
             ConceptSchema car = new ConceptSchema(CAR);

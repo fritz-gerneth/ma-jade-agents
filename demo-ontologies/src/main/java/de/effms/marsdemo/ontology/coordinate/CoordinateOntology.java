@@ -1,5 +1,6 @@
 package de.effms.marsdemo.ontology.coordinate;
 
+import de.effms.jade.ontology.RecommenderSystemOntology;
 import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
@@ -17,7 +18,7 @@ public class CoordinateOntology extends Ontology implements CoordinateVocabulary
 
     private CoordinateOntology()
     {
-        super(NAME, BasicOntology.getInstance());
+        super(NAME, RecommenderSystemOntology.getInstance());
 
         try {
             ConceptSchema coordinate = new ConceptSchema(COORDINATE);

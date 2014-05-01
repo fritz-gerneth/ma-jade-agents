@@ -1,9 +1,8 @@
 package de.effms.marsdemo.ontology.usermovement;
 
-import de.effms.jade.ontology.RecommenderSystemVocabulary;
 import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
 
-public interface UserMovementVocabulary extends CoordinateVocabulary, RecommenderSystemVocabulary
+public interface UserMovementVocabulary extends CoordinateVocabulary
 {
     String NAME = "de.effms.marsdemo.ontology.usermovement.UserMovement";
 
