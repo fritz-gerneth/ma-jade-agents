@@ -12,7 +12,7 @@ import jade.content.schema.ObjectSchema;
 import jade.content.schema.PredicateSchema;
 import jade.content.schema.PrimitiveSchema;
 
-public class CarInformationOntology extends Ontology implements CarInformationVocabulary, RelationalVocabulary
+public class CarInformationOntology extends Ontology implements CarInformationVocabulary
 {
     private static CarInformationOntology instance = new CarInformationOntology();
 
