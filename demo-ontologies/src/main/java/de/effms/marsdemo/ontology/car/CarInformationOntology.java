@@ -25,7 +25,7 @@ public class CarInformationOntology extends Ontology implements CarInformationVo
     {
         super(CarInformationVocabulary.NAME,
             new Ontology[] {
-                BasicOntology.getInstance(), CoordinateOntology.getInstance(), RelationalOntology.getInstance()
+                CoordinateOntology.getInstance(), RelationalOntology.getInstance()
             },
             new jade.content.onto.ReflectiveIntrospector()
         );

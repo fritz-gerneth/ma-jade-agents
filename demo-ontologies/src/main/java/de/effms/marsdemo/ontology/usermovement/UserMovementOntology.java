@@ -21,11 +21,20 @@ public class UserMovementOntology extends Ontology implements UserMovementVocabu
 
     private UserMovementOntology()
     {
-        super(NAME, new Ontology[] {BasicOntology.getInstance(), RecommenderSystemOntology.getInstance(), CoordinateOntology.getInstance()}, new ReflectiveIntrospector());
+        super(NAME,
+            new Ontology[] {
+                RecommenderSystemOntology.getInstance(),
+                CoordinateOntology.getInstance()
+            },
+            new ReflectiveIntrospector()
+        );
 
         try {
-            ConceptSchema userConcept = (ConceptSchema) getSchema(RecommenderSystemOntology.USER);
-            userConcept.add(HEADING_TOWARDS, (ConceptSchema) getSchema(CoordinateVocabulary.COORDINATE), ObjectSchema.OPTIONAL, ObjectSchema.UNLIMITED);
+            ConceptSchema movesConcept = new ConceptSchema(MOVES_TO);
+            movesConcept.addSuperSchema((ConceptSchema) getSchema(ACTION));
+            movesConcept.add(MOVES_TO_POSITION, (ConceptSchema) getSchema(COORDINATE));
+
+            this.add(movesConcept);
         } catch (OntologyException e) {
             e.printStackTrace();
         }
