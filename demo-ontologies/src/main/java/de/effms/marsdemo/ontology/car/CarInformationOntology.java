@@ -32,6 +32,7 @@ public class CarInformationOntology extends Ontology implements CarInformationVo
 
         try {
             ConceptSchema car = new ConceptSchema(CAR);
+            car.addSuperSchema((ConceptSchema) getSchema(IDENTITY));
 
             PredicateSchema speedPredicate = new PredicateSchema(SPEED);
             speedPredicate.addSuperSchema((PredicateSchema) getSchema(HAS));
