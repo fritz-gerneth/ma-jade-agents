@@ -5,8 +5,10 @@ import de.effms.agent.ui.user.UserKnowledgeBase;
 import de.effms.jade.agent.AbstractAgent;
 import de.effms.jade.ontology.RecommenderSystemOntology;
 import de.effms.jade.ontology.RelationalVocabulary;
+import de.effms.jade.service.publish.RemoteSubscriptionService;
 import de.effms.jade.service.publish.SubscriptionListener;
 import de.effms.jade.service.query.QueryRefCallback;
+import de.effms.jade.service.query.RemoteQueryService;
 import de.effms.marsdemo.ontology.car.CarInformationOntology;
 import de.effms.marsdemo.ontology.car.CarInformationVocabulary;
 import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
@@ -43,6 +45,11 @@ public class UserInteractionAgent extends AbstractAgent
         this.getContentManager().registerLanguage(lang);
         this.getContentManager().registerOntology(carKnowledgeBase.getOntology());
         this.getContentManager().registerOntology(userKnowledgeBase.getOntology());
+
+        new RemoteQueryService(this, carKnowledgeBase);
+        new RemoteQueryService(this, userKnowledgeBase);
+        new RemoteSubscriptionService(this, carKnowledgeBase);
+        new RemoteSubscriptionService(this, userKnowledgeBase);
 
         /**
         AbsVariable x = new AbsVariable("x", UserMovementOntology.COORDINATE);
