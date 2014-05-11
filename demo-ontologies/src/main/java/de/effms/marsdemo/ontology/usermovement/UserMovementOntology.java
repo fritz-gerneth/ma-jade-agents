@@ -42,6 +42,26 @@ public class UserMovementOntology extends Ontology implements UserMovementVocabu
 
             this.add(movesConcept);
             this.add(movingPredicate);
+
+            final ConceptSchema headerToConcept = new ConceptSchema(HEADED_TO);
+            headerToConcept.addSuperSchema((ConceptSchema) getSchema(SITUATION));
+            headerToConcept.add(HEADED_TO_POSITION, (ConceptSchema) getSchema(COORDINATE));
+
+            PredicateSchema headedToPredicate = new PredicateSchema(HEADED);
+            headedToPredicate.addSuperSchema((PredicateSchema) getSchema(IS));
+
+            // Only allow the MOVE concept to be used as the subject of the MOVES predicate
+            headedToPredicate.addFacet(IS_WHAT, new Facet() {
+                public void validate(AbsObject value, Ontology onto) throws OntologyException {
+                    ObjectSchema valueSchema = onto.getSchema(value.getTypeName());
+                    if (!valueSchema.isCompatibleWith(headerToConcept)) {
+                        throw new OntologyException("Value " + value + " is not a " + HEADED_TO);
+                    }
+                }
+            });
+
+            this.add(headerToConcept);
+            this.add(headedToPredicate);
         } catch (OntologyException e) {
             e.printStackTrace();
         }
