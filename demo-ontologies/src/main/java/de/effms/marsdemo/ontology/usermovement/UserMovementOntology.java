@@ -19,9 +19,9 @@ public class UserMovementOntology extends Ontology implements UserMovementVocabu
         super(NAME, CoordinateOntology.getInstance());
 
         try {
-            ConceptSchema movesConcept = new ConceptSchema(MOVES_TO);
+            ConceptSchema movesConcept = new ConceptSchema(MOVE);
             movesConcept.addSuperSchema((ConceptSchema) getSchema(ACTION));
-            movesConcept.add(MOVES_TO_POSITION, (ConceptSchema) getSchema(COORDINATE));
+            movesConcept.add(MOVE_TO_POSITION, (ConceptSchema) getSchema(COORDINATE));
 
             this.add(movesConcept);
         } catch (OntologyException e) {

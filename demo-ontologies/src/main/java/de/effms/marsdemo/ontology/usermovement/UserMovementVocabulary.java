@@ -6,7 +6,7 @@ public interface UserMovementVocabulary extends CoordinateVocabulary
 {
     String NAME = "de.effms.marsdemo.ontology.usermovement.UserMovement";
 
-    String MOVES_TO = "um_moves_to";
+    String MOVE = "um_move";
 
-    String MOVES_TO_POSITION = "um_moves_to_pos";
+    String MOVE_TO_POSITION = "um_move_to_pos";
 }
