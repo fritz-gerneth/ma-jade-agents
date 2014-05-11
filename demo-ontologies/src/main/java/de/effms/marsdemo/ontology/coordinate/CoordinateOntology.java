@@ -26,7 +26,11 @@ public class CoordinateOntology extends Ontology implements CoordinateVocabulary
             coordinate.add(X, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
             coordinate.add(Y, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
 
+            ConceptSchema distance = new ConceptSchema(DISTANCE);
+            distance.add(DISTANCE_D, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+
             this.add(coordinate);
+            this.add(distance);
         } catch (OntologyException e) {
             e.printStackTrace();
         }

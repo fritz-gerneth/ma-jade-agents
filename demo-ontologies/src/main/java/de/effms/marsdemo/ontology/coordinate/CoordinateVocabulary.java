@@ -9,4 +9,7 @@ public interface CoordinateVocabulary extends RecommenderSystemVocabulary
     String COORDINATE = "Coordinate";
     String X = "coordinate_x";
     String Y = "coordinate_y";
+
+    String DISTANCE = "Distance";
+    String DISTANCE_D = "distance_d";
 }
