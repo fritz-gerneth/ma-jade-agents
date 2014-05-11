@@ -6,6 +6,8 @@ public interface CoordinateVocabulary extends RecommenderSystemVocabulary
 {
     String NAME = "de.effms.marsdemo.ontology.coordinate.Coordinate";
 
+    String IS_LOCATED = "is_located";
+
     String COORDINATE = "Coordinate";
     String X = "coordinate_x";
     String Y = "coordinate_y";

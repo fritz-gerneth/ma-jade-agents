@@ -21,7 +21,10 @@ import jade.content.lang.sl.SLVocabulary;
 import jade.content.onto.OntologyException;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.TickerBehaviour;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,10 +49,17 @@ public class UserInteractionAgent extends AbstractAgent
         this.getContentManager().registerOntology(carKnowledgeBase.getOntology());
         this.getContentManager().registerOntology(userKnowledgeBase.getOntology());
 
-        new RemoteQueryService(this, carKnowledgeBase);
-        new RemoteQueryService(this, userKnowledgeBase);
-        new RemoteSubscriptionService(this, carKnowledgeBase);
-        new RemoteSubscriptionService(this, userKnowledgeBase);
+        this.addBehaviour(new OneShotBehaviour()
+        {
+            @Override
+            public void action()
+            {
+                new RemoteQueryService(UserInteractionAgent.this, carKnowledgeBase);
+                new RemoteQueryService(UserInteractionAgent.this, userKnowledgeBase);
+                new RemoteSubscriptionService(UserInteractionAgent.this, carKnowledgeBase);
+                new RemoteSubscriptionService(UserInteractionAgent.this, userKnowledgeBase);
+            }
+        });
 
         /**
         AbsVariable x = new AbsVariable("x", UserMovementOntology.COORDINATE);
@@ -112,6 +122,8 @@ public class UserInteractionAgent extends AbstractAgent
             {
                 carKnowledgeBase.setFuelRemaining(randInt(0, 100));
                 userKnowledgeBase.setUserDestination(randInt(0, 100), randInt(0, 100));
+
+                log.debug("New Coordinates for user: " + userKnowledgeBase.getUserDestination().toString());
             }
 
             public int randInt(int min, int max)

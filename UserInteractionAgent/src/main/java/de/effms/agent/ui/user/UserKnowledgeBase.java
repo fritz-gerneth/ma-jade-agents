@@ -13,6 +13,8 @@ import de.effms.marsdemo.ontology.usermovement.UserMovementVocabulary;
 import jade.content.abs.*;
 import jade.content.lang.sl.SLVocabulary;
 import jade.content.onto.Ontology;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,6 +22,8 @@ import java.util.List;
 
 public class UserKnowledgeBase implements Queryable, Subscribable
 {
+    private final Logger log = LoggerFactory.getLogger(UserKnowledgeBase.class);
+
     private UserMovementOntology ontology = UserMovementOntology.getInstance();
 
     private HashMap<String, LinkedList<Subscription>> subscriptions = new HashMap<>();
@@ -124,12 +128,16 @@ public class UserKnowledgeBase implements Queryable, Subscribable
         List<Subscription> subscriptionList = this.subscriptions.get(predicate);
 
         if (null == subscriptionList) {
+            log.info("No subscribers for predicate " + predicate);
             return;
         }
+
+        log.info("Informing " + subscriptionList.size() + " subscribers about change of " + predicate);
 
         for (Subscription s: subscriptionList) {
             SubscriptionListener callback = s.getCallback();
             if (null != callback) {
+                log.info("Informing subscriber with query " + s.getQuery());
                 callback.onInform(this.answer(s.getQuery()));
             }
         }
