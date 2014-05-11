@@ -32,6 +32,8 @@ public class UserKnowledgeBase implements Queryable, Subscribable
 
     private AbsConcept headedToCoordinate;
 
+    private AbsConcept location;
+
     public UserKnowledgeBase()
     {
         this.headedToCoordinate = new AbsConcept(UserMovementVocabulary.COORDINATE);
@@ -39,6 +41,9 @@ public class UserKnowledgeBase implements Queryable, Subscribable
 
         this.headedTo = new AbsConcept(UserMovementVocabulary.HEADED_TO);
         this.headedTo.set(UserMovementVocabulary.HEADED_TO_POSITION, this.headedToCoordinate);
+
+        this.location = new AbsConcept(UserMovementVocabulary.COORDINATE);
+        this.setUserLocation(0, 0);
     }
 
     public void setUserDestination(int x, int y)
@@ -48,6 +53,14 @@ public class UserKnowledgeBase implements Queryable, Subscribable
 
         this.informSubscribers(UserMovementVocabulary.HEADED);
         this.informSubscribers(UserMovementVocabulary.HEADED_TO_POSITION);
+    }
+
+    public void setUserLocation(int x, int y)
+    {
+        this.location.set(UserMovementVocabulary.X, x);
+        this.location.set(UserMovementVocabulary.Y, y);
+
+        this.informSubscribers(UserMovementVocabulary.IS_LOCATED);
     }
 
     public AbsConcept getUserDestination()
@@ -98,6 +111,22 @@ public class UserKnowledgeBase implements Queryable, Subscribable
             } else if (what instanceof AbsConcept) {
                 answer.set(SLVocabulary.EQUALS_RIGHT, this.headedToCoordinate);
             }
+        }
+        /**
+         * Answering the IS_LOCATED predicate
+         *
+         * Question for HEADED_TO:
+         * ((all ?x (is_located (rs_user :rel_identity_uid demoUserCar) ?x)))
+         *
+         * The same limitations as for HEADED apply
+         */
+        else if (propositionTypeName.equals(UserMovementVocabulary.IS_LOCATED)) {
+            AbsPredicate isLocated = query.getProposition();
+            AbsObject isWhat = isLocated.getAbsObject(UserMovementVocabulary.IS_WHAT);
+            if (isWhat instanceof AbsVariable) {
+                answer.set(SLVocabulary.EQUALS_RIGHT, this.location);
+            }
+            // as IS_WHO is the only other slot, its either this (not supported) or no variable at all (not supported)
         }
 
         return answer;
