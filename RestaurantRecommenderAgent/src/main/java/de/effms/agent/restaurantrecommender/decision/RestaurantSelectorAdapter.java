@@ -62,8 +62,7 @@ public class RestaurantSelectorAdapter implements LifecycleSubscriber, Queryable
                 searchService.cancelQuery(this, restaurantSelectorAgent);
 
                 /**
-                 * As we know the address of our remote agent now, we can start perception. For this agent, perception
-                 * means subscription to HEADED_TO of the user.
+                 * We have found the remote agent, now act like a proxy.
                  */
                 DFAgentDescription remoteAgent = searchResults[0];
                 restaurantSelector = new RemoteQueryable(
