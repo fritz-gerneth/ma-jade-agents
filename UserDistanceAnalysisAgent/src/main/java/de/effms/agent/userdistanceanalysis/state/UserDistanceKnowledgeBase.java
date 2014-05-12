@@ -155,16 +155,18 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
     private void informSubscribers(String predicate)
     {
         List<Subscription> subscriptionList = this.subscriptions.get(predicate);
+
         if (null == subscriptionList) {
-            log.debug("No subscribers for predicate " + predicate);
+            log.info("No subscribers for predicate " + predicate);
             return;
         }
 
-        log.debug("Informing " + subscriptionList.size() + " subscribers about change of " + predicate);
+        log.info("Informing " + subscriptionList.size() + " subscribers about change of " + predicate);
+
         for (Subscription s: subscriptionList) {
             SubscriptionListener callback = s.getCallback();
             if (null != callback) {
-                log.debug("Informing subscriber with query " + s.getQuery());
+                log.info("Informing subscriber with query " + s.getQuery());
                 callback.onInform(s.getQuery(), this.answer(s.getQuery()));
             }
         }
