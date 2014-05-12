@@ -1,36 +1,17 @@
 package de.effms.agent.ui;
 
-import de.effms.agent.ui.car.CarKnowledgeBase;
 import de.effms.agent.ui.user.UserKnowledgeBase;
 import de.effms.jade.agent.AbstractAgent;
-import de.effms.jade.ontology.RecommenderSystemOntology;
-import de.effms.jade.ontology.RelationalVocabulary;
 import de.effms.jade.service.publish.RemoteSubscriptionService;
-import de.effms.jade.service.publish.SubscriptionListener;
-import de.effms.jade.service.query.QueryRefCallback;
 import de.effms.jade.service.query.RemoteQueryService;
-import de.effms.marsdemo.ontology.car.CarInformationOntology;
-import de.effms.marsdemo.ontology.car.CarInformationVocabulary;
-import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
-import de.effms.marsdemo.ontology.usermovement.UserMovementOntology;
-import de.effms.marsdemo.ontology.usermovement.UserMovementVocabulary;
-import jade.content.abs.*;
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
-import jade.content.lang.sl.SLVocabulary;
-import jade.content.onto.OntologyException;
-import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.TickerBehaviour;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.lang.acl.ACLMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Random;
-import java.util.UUID;
 
 public class UserInteractionAgent extends AbstractAgent
 {
@@ -39,14 +20,11 @@ public class UserInteractionAgent extends AbstractAgent
     public UserInteractionAgent()
     {
         // Set up the internal knowledge base of the agent
-        final CarKnowledgeBase carKnowledgeBase = new CarKnowledgeBase();
-        carKnowledgeBase.setFuelRemaining(5);
         final UserKnowledgeBase userKnowledgeBase = new UserKnowledgeBase();
 
         // Register the ontologies the agent is able to speak
         final Codec lang = new SLCodec();
         this.getContentManager().registerLanguage(lang);
-        this.getContentManager().registerOntology(carKnowledgeBase.getOntology());
         this.getContentManager().registerOntology(userKnowledgeBase.getOntology());
 
         this.addBehaviour(new OneShotBehaviour()
@@ -54,9 +32,7 @@ public class UserInteractionAgent extends AbstractAgent
             @Override
             public void action()
             {
-                new RemoteQueryService(UserInteractionAgent.this, carKnowledgeBase);
                 new RemoteQueryService(UserInteractionAgent.this, userKnowledgeBase);
-                new RemoteSubscriptionService(UserInteractionAgent.this, carKnowledgeBase);
                 new RemoteSubscriptionService(UserInteractionAgent.this, userKnowledgeBase);
             }
         });
