@@ -147,6 +147,8 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
     public Subscription subscribe(AbsIRE query)
     {
         Subscription subscription = new Subscription(query);
+        // We should actually check where the variable is located and narrow it down the slot containing it, not
+        // use the top-level predicate of the query.
         String predicateName = query.getProposition().getTypeName();
         log.info("New Subscriber for predicate " + predicateName + ": " + query);
 
