@@ -70,26 +70,14 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
         this.informSubscribers(IS_LOCATED);
     }
 
-    /**
-     * An alternate approach would be to subscribe to HEADED_TO_POSITION and IS_LOCATED and trigger updates in the subscription listener.
-     * This would decouple things better.
-     */
-    private void updateDistance()
+    public void setDistance(int distance)
     {
-        if (null == this.headedToCoordinate || null == this.location) {
+        if (this.headedToDistance.getInteger(DISTANCE_D) == distance) {
             return;
         }
 
-        int xDistance = this.headedToCoordinate.getInteger(X)
-            - this.location.getInteger(X);
-        int yDistance = this.headedToCoordinate.getInteger(Y)
-            - this.location.getInteger(Y);
-        int distance = (int) Math.round(Math.sqrt(Math.pow(xDistance,2) + Math.pow(yDistance, 2)));
-
-        if (this.headedToDistance.getInteger(DISTANCE_D) != distance) {
-            this.headedToDistance.set(DISTANCE_D, distance);
-            this.informSubscribers(IS_LOCATED);
-        }
+        this.headedToDistance.set(DISTANCE_D, distance);
+        this.informSubscribers(IS_LOCATED);
     }
 
     @Override

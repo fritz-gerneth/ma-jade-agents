@@ -1,5 +1,6 @@
 package de.effms.agent.userdistanceanalysis;
 
+import de.effms.agent.userdistanceanalysis.next.UpdateDistance;
 import de.effms.agent.userdistanceanalysis.perception.HeadedTo;
 import de.effms.agent.userdistanceanalysis.perception.Location;
 import de.effms.agent.userdistanceanalysis.state.UserDistanceKnowledgeBase;
@@ -44,6 +45,9 @@ public class UserDistanceAnalysisAgent extends AbstractAgent
                 userMovementAgent.setName(new AID("userInteractionAgent", false));
 
                 addBehaviour(searchService);
+
+                new UpdateDistance(localKnowledgeBase);
+
                 searchService.addSearchResultListener(new SearchResultListener()
                 {
                     private AID currentUserAgent;
