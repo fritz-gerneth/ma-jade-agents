@@ -83,7 +83,7 @@ public class RestaurantKnowledgeBase implements Queryable
      */
     private AbsAggregate createRandomRestaurants()
     {
-        int itemCount = randInt(0, 3);
+        int itemCount = randInt(1, 3);
         AbsAggregate items = new AbsAggregate(SLVocabulary.SET);
         for (int i = 0; i < itemCount; i++) {
             AbsConcept restaurant = new AbsConcept(RESTAURANT);
