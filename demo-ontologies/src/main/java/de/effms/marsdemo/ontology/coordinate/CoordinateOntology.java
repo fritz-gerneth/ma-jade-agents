@@ -44,6 +44,7 @@ public class CoordinateOntology extends Ontology implements CoordinateVocabulary
 
             this.add(coordinate);
             this.add(distance);
+            this.add(isLocated);
         } catch (OntologyException e) {
             e.printStackTrace();
         }

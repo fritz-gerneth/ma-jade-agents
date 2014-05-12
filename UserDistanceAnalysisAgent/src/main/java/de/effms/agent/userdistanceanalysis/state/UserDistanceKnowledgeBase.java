@@ -1,4 +1,4 @@
-package de.effms.agent.ui.user;
+package de.effms.agent.userdistanceanalysis.state;
 
 import de.effms.jade.service.publish.Subscribable;
 import de.effms.jade.service.publish.Subscription;
@@ -6,7 +6,7 @@ import de.effms.jade.service.publish.SubscriptionListener;
 import de.effms.jade.service.query.QueryIfCallback;
 import de.effms.jade.service.query.QueryRefCallback;
 import de.effms.jade.service.query.Queryable;
-import de.effms.marsdemo.ontology.usermovement.UserMovementOntology;
+import de.effms.marsdemo.ontology.usermovement.UserMovementDistanceOntology;
 import jade.content.abs.*;
 import jade.content.onto.Ontology;
 import org.slf4j.Logger;
@@ -18,28 +18,29 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserKnowledgeBase implements Queryable, Subscribable
+public class UserDistanceKnowledgeBase implements Queryable, Subscribable
 {
-    private final Logger log = LoggerFactory.getLogger(UserKnowledgeBase.class);
+    private final Logger log = LoggerFactory.getLogger(UserDistanceKnowledgeBase.class);
 
     private HashMap<String, LinkedList<Subscription>> subscriptions = new HashMap<>();
 
-    private AbsConcept headedTo;
+    private AbsConcept headedTo = new AbsConcept(HEADED_TO);
 
-    private AbsConcept headedToCoordinate;
+    private AbsConcept headedToCoordinate = new AbsConcept(COORDINATE);
 
-    private AbsConcept location;
+    private AbsConcept headedToDistance = new AbsConcept(DISTANCE);
 
-    public UserKnowledgeBase()
+    private AbsConcept location = new AbsConcept(COORDINATE);
+
+    public UserDistanceKnowledgeBase()
     {
-        this.headedToCoordinate = new AbsConcept(COORDINATE);
+        this.headedToDistance.set(DISTANCE_D, 0);
+
+        this.setUserLocation(0, 0);
         this.setUserDestination(0, 0);
 
-        this.headedTo = new AbsConcept(HEADED_TO);
         this.headedTo.set(HEADED_TO_POSITION, this.headedToCoordinate);
-
-        this.location = new AbsConcept(COORDINATE);
-        this.setUserLocation(0, 0);
+        this.headedTo.set(HEADED_TO_DISTANCE, this.headedToDistance);
     }
 
     public void setUserDestination(int x, int y)
@@ -49,6 +50,7 @@ public class UserKnowledgeBase implements Queryable, Subscribable
 
         this.informSubscribers(HEADED);
         this.informSubscribers(HEADED_TO_POSITION);
+        //this.updateDistance();
     }
 
     public void setUserLocation(int x, int y)
@@ -57,16 +59,29 @@ public class UserKnowledgeBase implements Queryable, Subscribable
         this.location.set(Y, y);
 
         this.informSubscribers(IS_LOCATED);
+        //this.updateDistance();
     }
 
-    public AbsConcept getUserDestination()
+    /**
+     * An alternate approach would be to subscribe to HEADED_TO_POSITION and IS_LOCATED and trigger updates in the subscription listener.
+     * This would decouple things better.
+     */
+    private void updateDistance()
     {
-        return this.headedToCoordinate;
-    }
+        if (null == this.headedToCoordinate || null == this.location) {
+            return;
+        }
 
-    public AbsConcept getUserLocation()
-    {
-        return this.location;
+        int xDistance = this.headedToCoordinate.getInteger(X)
+            - this.location.getInteger(X);
+        int yDistance = this.headedToCoordinate.getInteger(Y)
+            - this.location.getInteger(Y);
+        int distance = (int) Math.round(Math.sqrt(Math.pow(xDistance,2) + Math.pow(yDistance, 2)));
+
+        if (this.headedToDistance.getInteger(DISTANCE_D) != distance) {
+            this.headedToDistance.set(DISTANCE_D, distance);
+            this.informSubscribers(IS_LOCATED);
+        }
     }
 
     @Override
@@ -84,22 +99,12 @@ public class UserKnowledgeBase implements Queryable, Subscribable
     private AbsConcept answer(AbsIRE query)
     {
         String propositionTypeName = query.getProposition().getTypeName();
+
         /**
-         * Answering the HEADED predicate
+         * The same as for the UserKnowledgeBase of the UserInteractionAgent for most of it.
          *
-         * Silently assuming the Variable is in the IS_WHAT slot. If asking for the user that is in HEADED towards,
-         * the variable would be in the IS_WHO slot. As we don't do user referencing and validation in this example,
-         * we just ignore it for now.
-         *
-         * Question for HEADED_TO:
-         * ((all ?x (um_headed (rs_user :rel_identity_uid demoUserCar) ?x)))
-         *
-         * Question for HEADED_TO_POSITION:
-         * ((all ?x (um_headed (rs_user :rel_identity_uid demoUserCar) (um_headed_to :um_headed_to_pos ?x))))
-         *
-         * In both cases, the evaluation is based on many implicit assumptions. As we only have one slot in both cases,
-         * we don't have to check which one contains the variable and which ones are set as additional constraints.
-         * We don't check if all variables are set.
+         * In this knowledge base the HEADED_TO concept has an additional slot: HEADED_TO_DISTANCE.
+         * Therefore when not requesting the complete HEADED_TO concept we have to search the variable
          */
         if (propositionTypeName.equals(HEADED)) {
             AbsPredicate headed = query.getProposition();
@@ -107,16 +112,19 @@ public class UserKnowledgeBase implements Queryable, Subscribable
             if (what instanceof AbsVariable) {
                 return this.headedTo;
             } else if (what instanceof AbsConcept) {
-                return this.headedToCoordinate;
+                AbsConcept headedTo = (AbsConcept) what;
+                AbsObject headedToPos = headedTo.getAbsObject(HEADED_TO_POSITION);
+                AbsObject headedToDistance = headedTo.getAbsObject(HEADED_TO_DISTANCE);
+
+                if (headedToPos instanceof AbsVariable) {
+                    return this.headedToCoordinate;
+                } else if (headedToDistance instanceof AbsVariable) {
+                    return this.headedToDistance;
+                }
             }
         }
         /**
-         * Answering the IS_LOCATED predicate
-         *
-         * Question for HEADED_TO:
-         * ((all ?x (is_located (rs_user :rel_identity_uid demoUserCar) ?x)))
-         *
-         * The same limitations as for HEADED apply
+         * The same as for the UserKnowledgeBase of the UserInteractionAgent
          */
         else if (propositionTypeName.equals(IS_LOCATED)) {
             AbsPredicate isLocated = query.getProposition();
@@ -134,12 +142,11 @@ public class UserKnowledgeBase implements Queryable, Subscribable
     public Subscription subscribe(AbsIRE query)
     {
         Subscription subscription = new Subscription(query);
-        String predicateName = query.getProposition().getTypeName();
-        if (!this.subscriptions.containsKey(predicateName)) {
-            this.subscriptions.put(predicateName, new LinkedList<Subscription>());
+        if (!this.subscriptions.containsKey(HEADED_TO_POSITION)) {
+            this.subscriptions.put(HEADED_TO_POSITION, new LinkedList<Subscription>());
         }
 
-        this.subscriptions.get(predicateName).add(subscription);
+        this.subscriptions.get(HEADED_TO_POSITION).add(subscription);
 
         SubscriptionListener callback = subscription.getCallback();
         if (null != callback) {
@@ -152,18 +159,16 @@ public class UserKnowledgeBase implements Queryable, Subscribable
     private void informSubscribers(String predicate)
     {
         List<Subscription> subscriptionList = this.subscriptions.get(predicate);
-
         if (null == subscriptionList) {
-            log.info("No subscribers for predicate " + predicate);
+            log.debug("No subscribers for predicate " + predicate);
             return;
         }
 
-        log.info("Informing " + subscriptionList.size() + " subscribers about change of " + predicate);
-
+        log.debug("Informing " + subscriptionList.size() + " subscribers about change of " + predicate);
         for (Subscription s: subscriptionList) {
             SubscriptionListener callback = s.getCallback();
             if (null != callback) {
-                log.info("Informing subscriber with query " + s.getQuery());
+                log.debug("Informing subscriber with query " + s.getQuery());
                 callback.onInform(s.getQuery(), this.answer(s.getQuery()));
             }
         }
@@ -178,6 +183,6 @@ public class UserKnowledgeBase implements Queryable, Subscribable
     @Override
     public Ontology getOntology()
     {
-        return UserMovementOntology.getInstance();
+        return UserMovementDistanceOntology.getInstance();
     }
 }
