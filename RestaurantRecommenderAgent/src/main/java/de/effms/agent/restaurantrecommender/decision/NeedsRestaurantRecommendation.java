@@ -45,8 +45,8 @@ public class NeedsRestaurantRecommendation
                  * to have a decent balance of situation where not to recommend. In a real implementation this decision
                  * probably would be a bit more complicated.
                  */
-                if (distance < 50) {
-                    log.debug("Distance < 50, no recommendation required");
+                if (distance < 40) {
+                    log.debug("Distance < 40, no recommendation required");
                     return;
                 }
                 log.debug("Distance " + distance + ". Requires recommendation for restaurant at destination.");
