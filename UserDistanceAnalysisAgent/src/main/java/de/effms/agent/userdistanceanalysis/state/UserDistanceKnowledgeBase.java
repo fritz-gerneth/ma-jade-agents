@@ -50,6 +50,10 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
 
     public void setUserDestinationCoordinate(int x, int y)
     {
+        if (this.headedToCoordinate.getInteger(X) == x && this.headedToCoordinate.getInteger(Y) == y) {
+            return;
+        }
+
         this.headedToCoordinate.set(X, x);
         this.headedToCoordinate.set(Y, y);
 
@@ -64,6 +68,10 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
 
     public void setUserLocationCoordinate(int x, int y)
     {
+        if (this.location.getInteger(X) == x && this.location.getInteger(Y) == y) {
+            return;
+        }
+
         this.location.set(X, x);
         this.location.set(Y, y);
 
