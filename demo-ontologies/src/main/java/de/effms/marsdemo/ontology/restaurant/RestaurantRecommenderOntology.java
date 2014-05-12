@@ -31,7 +31,7 @@ public class RestaurantRecommenderOntology extends Ontology implements Restauran
 
     private RestaurantRecommenderOntology()
     {
-        super(NAME, new Ontology[] { RestaurantOntology.getInstance(), RecommenderSystemOntology.getInstance()}, new ReflectiveIntrospector());
+        super(NAME, new Ontology[] { RestaurantOntology.getInstance(), RecommenderSystemOntology.getInstance(), CoordinateOntology.getInstance()}, new ReflectiveIntrospector());
 
         try {
             final ConceptSchema eatAction = new ConceptSchema(EAT);

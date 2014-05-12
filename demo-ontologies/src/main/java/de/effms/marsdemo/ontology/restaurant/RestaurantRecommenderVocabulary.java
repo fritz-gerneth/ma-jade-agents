@@ -3,7 +3,7 @@ package de.effms.marsdemo.ontology.restaurant;
 import de.effms.jade.ontology.RecommenderSystemVocabulary;
 import de.effms.marsdemo.ontology.coordinate.CoordinateVocabulary;
 
-public interface RestaurantRecommenderVocabulary extends CoordinateVocabulary, RecommenderSystemVocabulary
+public interface RestaurantRecommenderVocabulary extends CoordinateVocabulary, RecommenderSystemVocabulary, RestaurantOntologyVocabulary
 {
     String NAME = "de.effms.marsdemo.ontology.RestaurantRecommender";
 
