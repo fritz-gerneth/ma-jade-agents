@@ -28,7 +28,7 @@ public class Location
                     }
 
                     log.debug("Setting new location to " + result);
-                    localKnowledgeBase.setUserDestination(
+                    localKnowledgeBase.setUserDestinationCoordinate(
                         result.getInteger(UserMovementDistanceVocabulary.X),
                         result.getInteger(UserMovementDistanceVocabulary.Y)
                     );

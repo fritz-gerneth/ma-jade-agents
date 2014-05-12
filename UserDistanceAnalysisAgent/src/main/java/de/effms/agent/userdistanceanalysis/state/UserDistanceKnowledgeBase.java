@@ -36,30 +36,38 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
     {
         this.headedToDistance.set(DISTANCE_D, 0);
 
-        this.setUserLocation(0, 0);
-        this.setUserDestination(0, 0);
+        this.setUserLocationCoordinate(0, 0);
+        this.setUserDestinationCoordinate(0, 0);
 
         this.headedTo.set(HEADED_TO_POSITION, this.headedToCoordinate);
         this.headedTo.set(HEADED_TO_DISTANCE, this.headedToDistance);
     }
 
-    public void setUserDestination(int x, int y)
+    public AbsConcept getUserDestinationCoordinate()
+    {
+        return this.headedToCoordinate;
+    }
+
+    public void setUserDestinationCoordinate(int x, int y)
     {
         this.headedToCoordinate.set(X, x);
         this.headedToCoordinate.set(Y, y);
 
         this.informSubscribers(HEADED);
         this.informSubscribers(HEADED_TO_POSITION);
-        //this.updateDistance();
     }
 
-    public void setUserLocation(int x, int y)
+    public AbsConcept getUserLocationCoordinate()
+    {
+        return this.location;
+    }
+
+    public void setUserLocationCoordinate(int x, int y)
     {
         this.location.set(X, x);
         this.location.set(Y, y);
 
         this.informSubscribers(IS_LOCATED);
-        //this.updateDistance();
     }
 
     /**

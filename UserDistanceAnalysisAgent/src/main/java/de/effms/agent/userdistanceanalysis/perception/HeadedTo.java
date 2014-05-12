@@ -27,7 +27,7 @@ public class HeadedTo
                     }
 
                     log.debug("Setting new destination to " + result);
-                    localKnowledgeBase.setUserDestination(
+                    localKnowledgeBase.setUserDestinationCoordinate(
                         result.getInteger(UserMovementDistanceVocabulary.X),
                         result.getInteger(UserMovementDistanceVocabulary.Y)
                     );
