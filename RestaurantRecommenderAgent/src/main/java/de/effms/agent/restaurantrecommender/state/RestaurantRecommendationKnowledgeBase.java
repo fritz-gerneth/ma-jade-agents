@@ -40,13 +40,14 @@ public class RestaurantRecommendationKnowledgeBase implements Subscribable
         /**
          * This actually would match every where for the concept someone does. In our case this are only recommendations
          * this agent does:
-         * ((all ?x (does (agent :rel_identity_uid ID) ?x)))
+         * (iota :Variable (Variable :Name x) :Proposition (rel_does :rel_does_who (rs_agent :rel_identity_uid ID) :rel_does_what (rs_recommendation :rs_recommendation_item (Variable :Name x))))
          */
         String propositionTypeName = query.getProposition().getTypeName();
         if (propositionTypeName.equals(DOES)) {
             AbsPredicate isLocated = query.getProposition();
-            AbsObject isWhat = isLocated.getAbsObject(IS_WHAT);
-            if (isWhat instanceof AbsVariable) {
+            AbsObject doesWhat = isLocated.getAbsObject(DOES_WHAT);
+            AbsObject recommendationItem = doesWhat.getAbsObject(RECOMMENDATION_ITEM);
+            if (recommendationItem instanceof AbsVariable) {
                 this.subscriptions.add(subscription);
                 return subscription;
             }
