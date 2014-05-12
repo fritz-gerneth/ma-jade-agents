@@ -86,7 +86,7 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
         }
 
         this.headedToDistance.set(DISTANCE_D, distance);
-        this.informSubscribers(IS_LOCATED);
+        this.informSubscribers(HEADED);
     }
 
     @Override
