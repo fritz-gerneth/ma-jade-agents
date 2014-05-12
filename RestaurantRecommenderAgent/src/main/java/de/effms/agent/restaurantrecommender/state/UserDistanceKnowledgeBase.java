@@ -24,6 +24,8 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
 
     private HashMap<String, LinkedList<Subscription>> subscriptions = new HashMap<>();
 
+    private AbsConcept headedTo = new AbsConcept(HEADED_TO);
+
     private AbsConcept headedToCoordinate = new AbsConcept(COORDINATE);
 
     private AbsConcept headedToDistance = new AbsConcept(DISTANCE);
@@ -34,6 +36,9 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
         this.headedToCoordinate.set(X, 0);
         this.headedToCoordinate.set(Y, 0);
         this.headedToDistance.set(DISTANCE_D, 0);
+
+        this.headedTo.set(HEADED_TO_POSITION, this.headedToCoordinate);
+        this.headedTo.set(HEADED_TO_DISTANCE, this.headedToDistance);
     }
 
     public AbsConcept getUserDestinationCoordinate()
@@ -82,13 +87,15 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
         /**
          * The same as for the UserKnowledgeBase of the UserInteractionAgent for most of it.
          *
-         * In contrast to the UserInteractionAgent and UserDistanceAnalysisAgent, this Knowledge Base only supports querying
-         * for the coordinate and distance of HEADED
+         * In this knowledge base the HEADED_TO concept has an additional slot: HEADED_TO_DISTANCE.
+         * Therefore when not requesting the complete HEADED_TO concept we have to search the variable
          */
         if (propositionTypeName.equals(HEADED)) {
             AbsPredicate headed = query.getProposition();
             AbsObject what = headed.getAbsObject(IS_WHAT);
-            if (what instanceof AbsConcept) {
+            if (what instanceof AbsVariable) {
+                return this.headedTo;
+            } else if (what instanceof AbsConcept) {
                 AbsConcept headedTo = (AbsConcept) what;
                 AbsObject headedToPos = headedTo.getAbsObject(HEADED_TO_POSITION);
                 AbsObject headedToDistance = headedTo.getAbsObject(HEADED_TO_DISTANCE);
