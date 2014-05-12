@@ -1,6 +1,5 @@
 package de.effms.marsdemo.ontology.usermovement;
 
-import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.schema.ConceptSchema;

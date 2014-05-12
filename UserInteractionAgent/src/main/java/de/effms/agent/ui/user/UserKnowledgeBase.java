@@ -68,6 +68,11 @@ public class UserKnowledgeBase implements Queryable, Subscribable
         return this.headedToCoordinate;
     }
 
+    public AbsConcept getUserLocation()
+    {
+        return this.location;
+    }
+
     @Override
     public void queryIf(AbsPredicate query, QueryIfCallback callback)
     {

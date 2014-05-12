@@ -114,24 +114,33 @@ public class UserInteractionAgent extends AbstractAgent
 
         userKnowledgeBase.setUserDestination(5, 10); */
 
-        // Add some random walking to create subscription updates
+        // Add some random updates to create subscription updates
+        this.addBehaviour(new TickerBehaviour(this, 50000)
+        {
+            @Override
+            public void onTick()
+            {
+                userKnowledgeBase.setUserDestination(randInt(0, 100), randInt(0, 100));
+
+                log.debug("New destination for user: " + userKnowledgeBase.getUserDestination().toString());
+            }
+        });
         this.addBehaviour(new TickerBehaviour(this, 5000)
         {
             @Override
             public void onTick()
             {
-                carKnowledgeBase.setFuelRemaining(randInt(0, 100));
-                userKnowledgeBase.setUserDestination(randInt(0, 100), randInt(0, 100));
+                userKnowledgeBase.setUserLocation(randInt(0, 100), randInt(0, 100));
 
-                log.debug("New Coordinates for user: " + userKnowledgeBase.getUserDestination().toString());
-            }
-
-            public int randInt(int min, int max)
-            {
-                Random rand = new Random();
-                return rand.nextInt((max - min) + 1) + min;
+                log.debug("New location for user: " + userKnowledgeBase.getUserLocation().toString());
             }
         });
+    }
+
+    public int randInt(int min, int max)
+    {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
     }
 
     @Override
