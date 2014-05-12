@@ -101,4 +101,27 @@ public class UserMovementOntology extends Ontology implements UserMovementVocabu
 
         return absIota;
     }
+
+    /**
+     * Get the AbsIRE to query for the coordinate of IS_LOCATED
+     *
+     * ((iota ?x (is_located (rs_user :rel_identity_uid demoUserCar) ?x)))
+     */
+    public static AbsIRE getQueryForLocationCoordinate()
+    {
+        AbsVariable x = new AbsVariable("x", UserMovementOntology.COORDINATE);
+
+        AbsConcept user = new AbsConcept(UserMovementVocabulary.USER);
+        user.set(UserMovementVocabulary.IDENTITY_UID, "demoUser");
+
+        AbsPredicate headed = new AbsPredicate(UserMovementVocabulary.IS_LOCATED);
+        headed.set(UserMovementOntology.IS_WHO, user);
+        headed.set(UserMovementOntology.IS_WHAT, x);
+
+        AbsIRE absIota = new AbsIRE(SLVocabulary.IOTA);
+        absIota.setVariable(x);
+        absIota.setProposition(headed);
+
+        return absIota;
+    }
 }
