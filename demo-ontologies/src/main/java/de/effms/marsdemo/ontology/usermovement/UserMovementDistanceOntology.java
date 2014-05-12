@@ -16,7 +16,7 @@ public class UserMovementDistanceOntology extends Ontology implements UserMoveme
 
     private UserMovementDistanceOntology()
     {
-        super(NAME, CoordinateOntology.getInstance());
+        super(NAME, UserMovementOntology.getInstance());
 
         try {
             final ConceptSchema headedToConcept = (ConceptSchema) getSchema(HEADED_TO);
