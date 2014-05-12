@@ -146,11 +146,12 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
     public Subscription subscribe(AbsIRE query)
     {
         Subscription subscription = new Subscription(query);
-        if (!this.subscriptions.containsKey(HEADED_TO_POSITION)) {
-            this.subscriptions.put(HEADED_TO_POSITION, new LinkedList<Subscription>());
+        String predicateName = query.getProposition().getTypeName();
+        if (!this.subscriptions.containsKey(predicateName)) {
+            this.subscriptions.put(predicateName, new LinkedList<Subscription>());
         }
 
-        this.subscriptions.get(HEADED_TO_POSITION).add(subscription);
+        this.subscriptions.get(predicateName).add(subscription);
 
         SubscriptionListener callback = subscription.getCallback();
         if (null != callback) {
