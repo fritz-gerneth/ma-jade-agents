@@ -1,5 +1,6 @@
 package de.effms.agent.restaurantrecommender.decision;
 
+import de.effms.agent.restaurantrecommender.state.RestaurantRecommendationKnowledgeBase;
 import de.effms.agent.restaurantrecommender.state.UserDistanceKnowledgeBase;
 import de.effms.jade.service.publish.Subscription;
 import de.effms.jade.service.publish.SubscriptionListener;
@@ -7,10 +8,7 @@ import de.effms.jade.service.query.QueryRefCallback;
 import de.effms.marsdemo.ontology.restaurant.RestaurantOntology;
 import de.effms.marsdemo.ontology.usermovement.UserMovementDistanceVocabulary;
 import de.effms.marsdemo.ontology.usermovement.UserMovementOntology;
-import jade.content.abs.AbsConcept;
-import jade.content.abs.AbsContentElement;
-import jade.content.abs.AbsIRE;
-import jade.content.abs.AbsPredicate;
+import jade.content.abs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +20,9 @@ public class NeedsRestaurantRecommendation
 
     private final UserDistanceKnowledgeBase subscribable;
 
-    private final RestaurantSelectorAdapter itemAdapter;
-
-    public NeedsRestaurantRecommendation(final UserDistanceKnowledgeBase localKnowledgeBase, final RestaurantSelectorAdapter itemAdapter)
+    public NeedsRestaurantRecommendation(final UserDistanceKnowledgeBase localKnowledgeBase, final RestaurantSelectorAdapter itemAdapter, final RestaurantRecommendationKnowledgeBase restaurantRecommendationKnowledgeBase)
     {
         this.subscribable = localKnowledgeBase;
-        this.itemAdapter = itemAdapter;
 
         this.subscription = localKnowledgeBase.subscribe(UserMovementOntology.getQueryForHeadedTo());
         this.subscription.setCallback(new SubscriptionListener()
@@ -66,6 +61,8 @@ public class NeedsRestaurantRecommendation
                     public void onQueryRefResult(AbsIRE absIRE, AbsConcept concept)
                     {
                         log.info("Received restaurants to recommend: " + concept);
+
+                        restaurantRecommendationKnowledgeBase.informSubscribers((AbsAggregate) concept);
                     }
 
                     @Override

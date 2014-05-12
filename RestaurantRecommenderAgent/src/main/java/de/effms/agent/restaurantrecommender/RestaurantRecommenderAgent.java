@@ -3,8 +3,10 @@ package de.effms.agent.restaurantrecommender;
 import de.effms.agent.restaurantrecommender.decision.NeedsRestaurantRecommendation;
 import de.effms.agent.restaurantrecommender.decision.RestaurantSelectorAdapter;
 import de.effms.agent.restaurantrecommender.perception.PerceptionManager;
+import de.effms.agent.restaurantrecommender.state.RestaurantRecommendationKnowledgeBase;
 import de.effms.agent.restaurantrecommender.state.UserDistanceKnowledgeBase;
 import de.effms.jade.agent.AbstractAgent;
+import de.effms.jade.service.publish.RemoteSubscriptionService;
 import de.effms.marsdemo.ontology.restaurant.RestaurantOntology;
 import de.effms.marsdemo.ontology.restaurant.RestaurantRecommenderOntology;
 import de.effms.marsdemo.ontology.usermovement.UserMovementDistanceOntology;
@@ -33,6 +35,7 @@ public class RestaurantRecommenderAgent extends AbstractAgent
          * Setup our local knowledge base. This implementation is both Queryable and Subscribable.
          */
         UserDistanceKnowledgeBase localKnowledgeBase = new UserDistanceKnowledgeBase();
+        RestaurantRecommendationKnowledgeBase restaurantRecommendationKnowledgeBase = new RestaurantRecommendationKnowledgeBase();
 
         /**
          * Setup of internal knowledge operators and inferring mechanisms. This is what we have described as "next" in
@@ -56,18 +59,17 @@ public class RestaurantRecommenderAgent extends AbstractAgent
          */
         RestaurantSelectorAdapter adapter = new RestaurantSelectorAdapter(this);
         this.registerLifecycleSubscriber(adapter);
-        new NeedsRestaurantRecommendation(localKnowledgeBase, adapter);
+        new NeedsRestaurantRecommendation(localKnowledgeBase, adapter, restaurantRecommendationKnowledgeBase);
 
         /**
-         * Last, make our local knowledge base available for querying and subscription.
+         * Last, make our recommendations available for subscription
          *
          * Technically, this is a cross-cutting concern: we perceive requests, and decide to answer.
          *
          * Registering the ontology of our knowledge base is optional but allows other agents to search this agent based on it.
          */
-        /** this.agentDescription.addOntologies(localKnowledgeBase.getOntology().getName());
-        new RemoteQueryService(this, localKnowledgeBase);
-        new RemoteSubscriptionService(this, localKnowledgeBase); */
+         this.agentDescription.addOntologies(RestaurantRecommenderOntology.getInstance().getName());
+         new RemoteSubscriptionService(this, restaurantRecommendationKnowledgeBase);
     }
 
     @Override
