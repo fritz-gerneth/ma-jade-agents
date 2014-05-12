@@ -1,7 +1,8 @@
 package de.effms.marsdemo.ontology.usermovement;
 
 import de.effms.marsdemo.ontology.coordinate.CoordinateOntology;
-import jade.content.abs.AbsObject;
+import jade.content.abs.*;
+import jade.content.lang.sl.SLVocabulary;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.schema.ConceptSchema;
@@ -50,5 +51,54 @@ public class UserMovementOntology extends Ontology implements UserMovementVocabu
         } catch (OntologyException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get the AbsIRE to query for the coordinates of HEADED_TO.
+     *
+     * ((iota ?x (um_headed (rs_user :rel_identity_uid demoUserCar) (um_headed_to :um_headed_to_pos ?x))))
+     */
+    public static AbsIRE getQueryForHeadedToCoordinate()
+    {
+        AbsVariable x = new AbsVariable("x", UserMovementOntology.COORDINATE);
+
+        AbsConcept user = new AbsConcept(UserMovementVocabulary.USER);
+        user.set(UserMovementVocabulary.IDENTITY_UID, "demoUser");
+
+        AbsConcept headedTo = new AbsConcept(UserMovementVocabulary.HEADED_TO);
+        headedTo.set(UserMovementVocabulary.HEADED_TO_POSITION, x);
+
+        AbsPredicate headed = new AbsPredicate(UserMovementVocabulary.HEADED);
+        headed.set(UserMovementOntology.IS_WHO, user);
+        headed.set(UserMovementOntology.IS_WHAT, headedTo);
+
+        AbsIRE absIota = new AbsIRE(SLVocabulary.IOTA);
+        absIota.setVariable(x);
+        absIota.setProposition(headed);
+
+        return absIota;
+    }
+
+    /**
+     * Get the AbsIRE to query for HEADED_TO.
+     *
+     * ((iota ?x (um_headed (rs_user :rel_identity_uid demoUserCar) ?x)))
+     */
+    public static AbsIRE getQueryForHeadedTo()
+    {
+        AbsVariable x = new AbsVariable("x", UserMovementOntology.COORDINATE);
+
+        AbsConcept user = new AbsConcept(UserMovementVocabulary.USER);
+        user.set(UserMovementVocabulary.IDENTITY_UID, "demoUser");
+
+        AbsPredicate headed = new AbsPredicate(UserMovementVocabulary.HEADED);
+        headed.set(UserMovementOntology.IS_WHO, user);
+        headed.set(UserMovementOntology.IS_WHAT, x);
+
+        AbsIRE absIota = new AbsIRE(SLVocabulary.IOTA);
+        absIota.setVariable(x);
+        absIota.setProposition(headed);
+
+        return absIota;
     }
 }
