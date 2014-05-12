@@ -41,6 +41,7 @@ public class RestaurantSelectorAgent extends AbstractAgent
          * Make our fake restaurant knowledge base queryable, but not subscribable. See its implementation for details.
          */
         this.agentDescription.addOntologies(localKnowledgeBase.getOntology().getName());
+        this.agentDescription.addOntologies(localKnowledgeBase.getOntology().getName());
         new RemoteQueryService(this, localKnowledgeBase);
     }
 

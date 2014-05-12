@@ -3,6 +3,7 @@ package de.effms.agent.restaurantselector.state;
 import de.effms.jade.service.query.QueryIfCallback;
 import de.effms.jade.service.query.QueryRefCallback;
 import de.effms.jade.service.query.Queryable;
+import de.effms.marsdemo.ontology.restaurant.RestaurantOntology;
 import de.effms.marsdemo.ontology.usermovement.UserMovementDistanceOntology;
 import jade.content.abs.*;
 import jade.content.lang.sl.SLVocabulary;
@@ -101,6 +102,6 @@ public class RestaurantKnowledgeBase implements Queryable
     @Override
     public Ontology getOntology()
     {
-        return UserMovementDistanceOntology.getInstance();
+        return RestaurantOntology.getInstance();
     }
 }
