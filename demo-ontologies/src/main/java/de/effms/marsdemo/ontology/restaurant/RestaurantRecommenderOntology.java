@@ -12,8 +12,12 @@ import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.onto.ReflectiveIntrospector;
+import jade.content.schema.AggregateSchema;
 import jade.content.schema.ConceptSchema;
+import jade.content.schema.ObjectSchema;
 import jade.content.schema.PrimitiveSchema;
+
+import java.util.UUID;
 
 public class RestaurantRecommenderOntology extends Ontology implements RestaurantRecommenderVocabulary
 {
@@ -36,7 +40,7 @@ public class RestaurantRecommenderOntology extends Ontology implements Restauran
         try {
             final ConceptSchema eatAction = new ConceptSchema(EAT);
             eatAction.addSuperSchema((ConceptSchema) getSchema(ACTION));
-            eatAction.add(EAT_WHERE, new ConceptSchema(ConceptSchema.BASE_NAME));
+            eatAction.add(EAT_WHERE, new AggregateSchema(AggregateSchema.BASE_NAME));
 
             this.add(eatAction);
         } catch (OntologyException e) {
@@ -45,35 +49,27 @@ public class RestaurantRecommenderOntology extends Ontology implements Restauran
     }
 
     /**
-     * Get the AbsIRE to query for all restaurants located at a coordinate.
+     * Get the AbsIRE to subscribe for all recommendation items
      *
-     * ((all ?x (is_located ?x (Coordinate :x :y)))
+     * ((all ?x (does (Agent) (recommend ?x)
      */
-    public static AbsIRE getRestaurantsLocatedAt(int x, int y)
+    public static AbsIRE getRecommendations()
     {
-        AbsConcept coordinate = new AbsConcept(COORDINATE);
-        coordinate.set(X, x);
-        coordinate.set(Y, y);
+        AbsVariable x = new AbsVariable("x", RECOMMENDATION_ITEM);
 
-        return getRestaurantsLocatedAt(coordinate);
-    }
+        AbsConcept agent = new AbsConcept(AGENT);
+        agent.set(IDENTITY_UID, UUID.randomUUID().toString());
 
-    /**
-     * Get the AbsIRE to query for all restaurants located at a coordinate.
-     *
-     * ((all ?x (is_located ?x (Coordinate :x :y)))
-     */
-    public static AbsIRE getRestaurantsLocatedAt(AbsConcept coordinate)
-    {
-        AbsVariable x = new AbsVariable("x", COORDINATE);
+        AbsConcept recommend = new AbsConcept(RECOMMENDATION);
+        recommend.set(RECOMMENDATION_ITEM, x);
 
-        AbsPredicate locatedAt = new AbsPredicate(IS_LOCATED);
-        locatedAt.set(IS_WHO, x);
-        locatedAt.set(UserMovementVocabulary.IS_WHAT, coordinate);
+        AbsPredicate does = new AbsPredicate(DOES);
+        does.set(DOES_WHO, agent);
+        does.set(DOES_WHAT, recommend);
 
         AbsIRE absIota = new AbsIRE(SLVocabulary.IOTA);
         absIota.setVariable(x);
-        absIota.setProposition(locatedAt);
+        absIota.setProposition(does);
 
         return absIota;
     }
