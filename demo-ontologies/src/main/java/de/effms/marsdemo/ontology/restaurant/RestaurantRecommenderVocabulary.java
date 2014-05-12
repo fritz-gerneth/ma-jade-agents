@@ -8,4 +8,6 @@ public interface RestaurantRecommenderVocabulary extends CoordinateVocabulary, R
     String NAME = "de.effms.marsdemo.ontology.RestaurantRecommender";
 
     static String EAT = "eat";
+
+    static String EAT_WHERE = "eat_where";
 }

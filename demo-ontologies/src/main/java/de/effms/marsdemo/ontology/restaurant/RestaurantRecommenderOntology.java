@@ -36,6 +36,7 @@ public class RestaurantRecommenderOntology extends Ontology implements Restauran
         try {
             final ConceptSchema eatAction = new ConceptSchema(EAT);
             eatAction.addSuperSchema((ConceptSchema) getSchema(ACTION));
+            eatAction.add(EAT_WHERE, new ConceptSchema(ConceptSchema.BASE_NAME));
 
             this.add(eatAction);
         } catch (OntologyException e) {
