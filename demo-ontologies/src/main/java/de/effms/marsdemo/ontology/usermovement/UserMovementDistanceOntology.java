@@ -20,7 +20,14 @@ public class UserMovementDistanceOntology extends Ontology implements UserMoveme
 
     private UserMovementDistanceOntology()
     {
-        super(NAME, UserMovementOntology.getInstance());
+        /**
+         * In this case we need our own copy of the base ontology:
+         * As we retrieve the existing concept by reference and extend it, the extension would be added to the base
+         * ontology. As we don't want this to be the case (the concept defined in this ontology would become mandatory
+         * for users of the base ontology), we create our own instance of the base ontology. It is still
+         * added to the base ontology but its not affecting the singletone instance we usually fetch.
+         */
+        super(NAME, UserMovementOntology.getNewInstance());
 
         try {
             final ConceptSchema headedToConcept = (ConceptSchema) getSchema(HEADED_TO);
