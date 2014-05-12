@@ -41,12 +41,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>de.effms.dev.repository</id>
-            <name>Developer Repository</name>
-            <url>file:///${env.MAVEN_DEV_REPO_PATH}</url>
-        </repository>
-    </distributionManagement>
 </project>
