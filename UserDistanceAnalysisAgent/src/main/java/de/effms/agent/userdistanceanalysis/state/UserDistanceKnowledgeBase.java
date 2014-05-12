@@ -34,10 +34,12 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
 
     public UserDistanceKnowledgeBase()
     {
+        // Set default values to prevent NullPointerExceptions
+        this.headedToCoordinate.set(X, 0);
+        this.headedToCoordinate.set(Y, 0);
+        this.location.set(X, 0);
+        this.location.set(Y, 0);
         this.headedToDistance.set(DISTANCE_D, 0);
-
-        this.setUserLocationCoordinate(0, 0);
-        this.setUserDestinationCoordinate(0, 0);
 
         this.headedTo.set(HEADED_TO_POSITION, this.headedToCoordinate);
         this.headedTo.set(HEADED_TO_DISTANCE, this.headedToDistance);
@@ -58,7 +60,6 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
         this.headedToCoordinate.set(Y, y);
 
         this.informSubscribers(HEADED);
-        this.informSubscribers(HEADED_TO_POSITION);
     }
 
     public AbsConcept getUserLocationCoordinate()
@@ -147,10 +148,11 @@ public class UserDistanceKnowledgeBase implements Queryable, Subscribable
     {
         Subscription subscription = new Subscription(query);
         String predicateName = query.getProposition().getTypeName();
+        log.info("New Subscriber for predicate " + predicateName + ": " + query);
+
         if (!this.subscriptions.containsKey(predicateName)) {
             this.subscriptions.put(predicateName, new LinkedList<Subscription>());
         }
-
         this.subscriptions.get(predicateName).add(subscription);
 
         SubscriptionListener callback = subscription.getCallback();
