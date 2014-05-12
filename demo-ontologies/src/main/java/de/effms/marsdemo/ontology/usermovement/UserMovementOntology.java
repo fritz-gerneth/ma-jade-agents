@@ -18,6 +18,11 @@ public class UserMovementOntology extends Ontology implements UserMovementVocabu
         return instance;
     }
 
+    public static UserMovementOntology getNewInstance()
+    {
+        return new UserMovementOntology();
+    }
+
     private UserMovementOntology()
     {
         super(NAME, CoordinateOntology.getInstance());

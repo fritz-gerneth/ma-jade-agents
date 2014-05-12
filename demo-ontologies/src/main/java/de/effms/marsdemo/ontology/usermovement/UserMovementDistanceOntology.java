@@ -13,6 +13,11 @@ public class UserMovementDistanceOntology extends Ontology implements UserMoveme
         return instance;
     }
 
+    public static UserMovementDistanceOntology getNewInstance()
+    {
+        return new UserMovementDistanceOntology();
+    }
+
     private UserMovementDistanceOntology()
     {
         super(NAME, UserMovementOntology.getInstance());
