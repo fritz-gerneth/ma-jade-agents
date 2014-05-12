@@ -12,6 +12,8 @@
         <module>demo-ontologies</module>
         <module>UserInteractionAgent</module>
         <module>UserDistanceAnalysisAgent</module>
+        <module>RestaurantSelectorAgent</module>
+        <module>RestaurantRecommenderAgent</module>
     </modules>
 
     <properties>

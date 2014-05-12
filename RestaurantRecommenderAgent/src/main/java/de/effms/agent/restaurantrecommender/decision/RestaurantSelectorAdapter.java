@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The PerceptionManager is responsible for managing the lifecycle of our perception components.
+ * The RestaurantSelectorAdapter searches for the RestaurantSelectorAgent and acts as a proxy to it.
  */
 public class RestaurantSelectorAdapter implements LifecycleSubscriber, Queryable
 {
