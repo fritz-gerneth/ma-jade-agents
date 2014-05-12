@@ -1,5 +1,7 @@
 package de.effms.agent.restaurantrecommender;
 
+import de.effms.agent.restaurantrecommender.decision.NeedsRestaurantRecommendation;
+import de.effms.agent.restaurantrecommender.decision.RestaurantSelectorAdapter;
 import de.effms.agent.restaurantrecommender.perception.PerceptionManager;
 import de.effms.agent.restaurantrecommender.state.UserDistanceKnowledgeBase;
 import de.effms.jade.agent.AbstractAgent;
@@ -36,9 +38,8 @@ public class RestaurantRecommenderAgent extends AbstractAgent
          * Setup of internal knowledge operators and inferring mechanisms. This is what we have described as "next" in
          * the conceptual model of an agent.
          *
-         * In our case the agent will automatically infer the distance between the user and its destination.
+         * This agent does not have any internal state-changing mechanisms.
          */
-        //new UpdateDistance(localKnowledgeBase);
 
         /**
          * Setup perception of the agent. Our implementation of perception is dependant on the lifecycle. See the
@@ -47,6 +48,15 @@ public class RestaurantRecommenderAgent extends AbstractAgent
          * In our case we want to perceive to user's location and destination.
          */
         this.registerLifecycleSubscriber(new PerceptionManager(this, localKnowledgeBase));
+
+        /**
+         * Setup of decision making components.
+         *
+         * In this agent, we decide to recommend a restaurant.
+         */
+        RestaurantSelectorAdapter adapter = new RestaurantSelectorAdapter(this);
+        this.registerLifecycleSubscriber(adapter);
+        new NeedsRestaurantRecommendation(localKnowledgeBase, adapter);
 
         /**
          * Last, make our local knowledge base available for querying and subscription.
