@@ -8,6 +8,9 @@ import jade.content.lang.sl.SLCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The UserDeviceAgent represents the device the user will receive recommendations on. It could run on any remote device too.
+ */
 public class UserDeviceAgent extends AbstractAgent
 {
     private final Logger log = LoggerFactory.getLogger(UserDeviceAgent.class);

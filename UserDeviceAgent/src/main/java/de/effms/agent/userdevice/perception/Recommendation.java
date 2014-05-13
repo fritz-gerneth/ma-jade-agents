@@ -5,8 +5,6 @@ import de.effms.jade.service.publish.Subscription;
 import de.effms.jade.service.publish.SubscriptionListener;
 import de.effms.marsdemo.ontology.restaurant.RestaurantRecommenderOntology;
 import de.effms.marsdemo.ontology.restaurant.RestaurantRecommenderVocabulary;
-import de.effms.marsdemo.ontology.usermovement.UserMovementDistanceVocabulary;
-import de.effms.marsdemo.ontology.usermovement.UserMovementOntology;
 import jade.content.abs.AbsAggregate;
 import jade.content.abs.AbsConcept;
 import jade.content.abs.AbsIRE;
@@ -14,6 +12,9 @@ import jade.util.leap.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This component perceives recommendations and simply prints them to the command line (presenting them to the user).
+ */
 public class Recommendation
 {
     final private Logger log = LoggerFactory.getLogger(Recommendation.class);

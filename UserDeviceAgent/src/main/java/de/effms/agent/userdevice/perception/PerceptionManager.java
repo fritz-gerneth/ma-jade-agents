@@ -23,7 +23,7 @@ public class PerceptionManager implements LifecycleSubscriber
 
     private final CyclicSearchService searchService;
 
-    private Recommendation headedToPerception;
+    private Recommendation recommendationPerception;
 
     public PerceptionManager(Agent localAgent)
     {
@@ -40,8 +40,8 @@ public class PerceptionManager implements LifecycleSubscriber
          *
          * In this case with simply search for the agent by name. We could search by provided ontology too.
          */
-        final DFAgentDescription userMovementAgent = new DFAgentDescription();
-        userMovementAgent.setName(new AID("restaurantRecommenderAgent", false));
+        final DFAgentDescription recommenderAgent = new DFAgentDescription();
+        recommenderAgent.setName(new AID("restaurantRecommenderAgent", false));
 
         searchService.addSearchResultListener(new SearchResultListener()
         {
@@ -55,14 +55,14 @@ public class PerceptionManager implements LifecycleSubscriber
                     log.debug("Not found yet. Next cycle.");
                     return;
                 }
-                searchService.cancelQuery(this, userMovementAgent);
+                searchService.cancelQuery(this, recommenderAgent);
 
                 /**
                  * As we know the address of our remote agent now, we can start perception. For this agent, perception
                  * means subscription to HEADED_TO of the user.
                  */
                 DFAgentDescription userAgent = searchResults[0];
-                headedToPerception = new Recommendation(
+                recommendationPerception = new Recommendation(
                     new RemoteSubscribable(
                         localAgent,
                         userAgent.getName(),
@@ -70,7 +70,7 @@ public class PerceptionManager implements LifecycleSubscriber
                     )
                 );
             }
-        }, userMovementAgent);
+        }, recommenderAgent);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class PerceptionManager implements LifecycleSubscriber
          * unsubscribe.
          */
         log.info("Taking down perception components");
-        if (null != headedToPerception) {
-            headedToPerception.cancel();
+        if (null != recommendationPerception) {
+            recommendationPerception.cancel();
         }
     }
 }
