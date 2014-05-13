@@ -18,6 +18,9 @@ import java.util.List;
 
 import static de.effms.marsdemo.ontology.usermovement.UserMovementDistanceVocabulary.*;
 
+/**
+ * This knowledge base is our internal knowledge where the user is HEADED_TO. Data is perceived by the HeadedTo component.
+ */
 public class UserDistanceKnowledgeBase implements Queryable, Subscribable
 {
     private final Logger log = LoggerFactory.getLogger(UserDistanceKnowledgeBase.class);

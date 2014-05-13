@@ -12,6 +12,10 @@ import jade.content.abs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This components looks at the agent's local knowledge base and decides if a recommendation is necessary. If so, it asks
+ * the restaurantSelectorAgent for restaurants and publishes the recommendations to anyone interested.
+ */
 public class NeedsRestaurantRecommendation
 {
     final private Logger log = LoggerFactory.getLogger(NeedsRestaurantRecommendation.class);
@@ -60,8 +64,11 @@ public class NeedsRestaurantRecommendation
                     @Override
                     public void onQueryRefResult(AbsIRE absIRE, AbsConcept concept)
                     {
+                        /**
+                         * Received restaurants to recommend from the restaurantSelectorAgent, save them in our recommendation
+                         * knowledge base to be published.
+                         */
                         log.info("Received restaurants to recommend: " + concept);
-
                         restaurantRecommendationKnowledgeBase.informSubscribers((AbsAggregate) concept);
                     }
 

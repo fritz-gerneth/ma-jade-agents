@@ -34,13 +34,10 @@ public class RestaurantRecommenderAgent extends AbstractAgent
         /**
          * Setup our local knowledge base. This implementation is both Queryable and Subscribable.
          */
-        UserDistanceKnowledgeBase localKnowledgeBase = new UserDistanceKnowledgeBase();
-        RestaurantRecommendationKnowledgeBase restaurantRecommendationKnowledgeBase = new RestaurantRecommendationKnowledgeBase();
+        UserDistanceKnowledgeBase localKnowledgeBase = new UserDistanceKnowledgeBase(); // Representing our knowledge about the user we perceived
+        RestaurantRecommendationKnowledgeBase restaurantRecommendationKnowledgeBase = new RestaurantRecommendationKnowledgeBase(); // Our recommendations
 
         /**
-         * Setup of internal knowledge operators and inferring mechanisms. This is what we have described as "next" in
-         * the conceptual model of an agent.
-         *
          * This agent does not have any internal state-changing mechanisms.
          */
 
